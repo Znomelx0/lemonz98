@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>lemonz98 - Retro Gaming & Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; width: 100vw; }
+    body {
+      min-height: 100vh;
+      width: 100vw;
+      background: url('https://wallpapers.com/images/hd/windows-98-background-mvrmy77vuyblzxba.jpg') center center / cover no-repeat fixed;
+      color: #222;
+      font-family: 'VT323', 'Courier New', Courier, monospace;
+      overflow-x: hidden;
+      transition: background 0.5s, color 0.5s;
+    }
+    body.theme-lemon {
+      background: linear-gradient(135deg, #fffde4 0%, #ffe56a 100%) !important;
+      color: #4b7300 !important;
+    }
+    body.theme-win98 {
+      background: url('https://wallpapers.com/images/hd/windows-98-background-mvrmy77vuyblzxba.jpg') center center / cover no-repeat fixed !important;
+      color: #222 !important;
+    }
+    nav {
+      background: rgba(255,255,255,0.95);
+      border-bottom: 2px solid #c0c0c0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 1002;
+      box-shadow: 0 4px 24px 0 rgba(0,0,0,0.09);
+      min-height: 60px;
+      width: 100vw;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .logo {
+      width: 55px; height: 55px;
+      animation: logoFloat 3s infinite ease-in-out;
+      filter: drop-shadow(0 2px 6px #ffe66a);
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+    @keyframes logoFloat {
+      0%, 100% {transform: translateY(0);}
+      50% {transform: translateY(-14px);}
+    }
+    .site-title {
+      font-size: 2.3rem;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: bold;
+      color: #4b7300;
+      letter-spacing: 0.09em;
+      text-shadow: 1px 1px #ffe66a, 0 2px 8px #a3d977;
+      animation: hypnoticText 8s infinite linear;
+    }
+    body.theme-lemon .site-title {
+      color: #4b7300;
+      text-shadow: 1px 1px #fffde4;
+    }
+    body.theme-win98 .site-title {
+      color: #4b7300;
+      text-shadow: 1px 1px #ffe66a, 0 2px 8px #a3d977;
+    }
+    @keyframes hypnoticText {
+      0% { filter: hue-rotate(0deg);}
+      100% {filter: hue-rotate(360deg);}
+    }
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      flex-shrink: 1;
+    }
+    .menu-btn {
+      background: linear-gradient(90deg,#a3d977,#f7ffae);
+      border: 2px outset #e0e0e0;
+      padding: 7px 18px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: bold;
+      color: #4b7300;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 2px 10px 0 rgba(100,100,0,0.13);
+      transition: background 0.3s, color 0.3s, transform 0.2s;
+      position: relative;
+      z-index: 1;
+      outline: none;
+      border-style: outset;
+      animation: menuBtnWave 3s infinite ease-in-out;
+    }
+    @keyframes menuBtnWave {
+      0%,100% { transform: scale(1);}
+      50% { transform: scale(1.05);}
+    }
+    .menu-btn:hover {
+      background: linear-gradient(90deg,#ffe56a,#a3d977);
+      color: #222;
+      transform: scale(1.1);
+    }
+    .theme-btns {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-left: 12px;
+      flex-shrink: 1;
+    }
+    .theme-btn {
+      padding: 7px 11px;
+      font-size: 1rem;
+      border-radius: 50%;
+      width: 34px; height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7ffae;
+      border: 2px outset #e0e0e0;
+      box-shadow: 0 1px 5px 0 rgba(100,100,0,0.09);
+      transition: background 0.3s, color 0.3s, transform 0.2s;
+      font-family: 'Orbitron', sans-serif;
+      color: #4b7300;
+    }
+    .theme-btn.active {
+      background: #a3d977;
+      color: #fff;
+      box-shadow: 0 0 0 3px #ffe66a;
+    }
+    .hamburger {
+      width: 36px;
+      height: 36px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1010;
+      position: relative;
+      margin-left: 8px;
+      background: rgba(255,255,255,0.93);
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+    .hamburger span {
+      display: block;
+      height: 5px;
+      width: 30px;
+      background: #4b7300;
+      border-radius: 2px;
+      margin: 3px 0;
+      transition: 0.5s;
+      animation: hamburgerAnim 2s infinite;
+    }
+    @keyframes hamburgerAnim {
+      0%,100% {background: #4b7300;}
+      50% {background: #ffe66a;}
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(7px,6px);}
+    .hamburger.open span:nth-child(2) { opacity: 0;}
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(7px,-6px);}
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: rgba(255,255,255,0.96);
+      position: absolute;
+      top: 60px; right: 7px;
+      padding: 18px 22px;
+      border: 2px solid #c0c0c0;
+      border-radius: 10px;
+      box-shadow: 0 3px 24px 0 rgba(0,0,0,0.13);
+      z-index: 1001;
+      animation: menuPop 0.4s;
+      min-width: 170px;
+      width: 85vw;
+      max-width: 320px;
+      align-items: flex-start;
+    }
+    @keyframes menuPop {
+      from { opacity:0; transform: scale(0.7);}
+      to { opacity:1; transform: scale(1);}
+    }
+    .mobile-menu.show { display: flex;}
+    .mobile-menu a {
+      margin: 12px 0; color: #4b7300;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.3rem;
+      padding: 5px 0;
+      animation: menuBtnWave 3s infinite ease-in-out;
+    }
+    .desktop-menu {
+      display: flex;
+      gap: 13px;
+    }
+    .desktop-menu a {
+      color: #4b7300;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.2rem;
+      padding: 7px 13px;
+      border-radius: 4px;
+      animation: menuBtnWave 3s infinite ease-in-out;
+      transition: background 0.3s, color 0.3s;
+    }
+    .desktop-menu a:hover {
+      background: #ffe66a;
+      color: #222;
+    }
+    @media(max-width: 900px) {
+      .container { max-width: 98vw; }
+      .site-title { font-size: 1.5rem;}
+      .logo { width: 35px;height: 35px;}
+      .hamburger { display: flex;}
+      .desktop-menu { display: none; }
+      .mobile-menu { top: 52px; right: 2px; width: 93vw; min-width: 0; max-width: 98vw; padding: 15px 4px;}
+    }
+    @media(max-width: 600px) {
+      .container { max-width: 100vw; }
+      nav { min-height: 40px; }
+      .logo { width: 22px; height: 22px;}
+      .site-title { font-size: 0.97rem;}
+      .theme-btns { gap: 3px; margin-left: 3px;}
+      .theme-btn { width: 20px; height: 20px; font-size: 0.7em; padding: 2px 2px;}
+      .mobile-menu { top: 38px; right: 1px; padding: 7px 2px; width: 99vw; min-width: 0; max-width: 99vw; border-radius: 7px;}
+      .mobile-menu a { font-size: 1.09rem; margin: 6px 0; padding: 2px 0;}
+    }
+    .container {
+      width: 98vw;
+      max-width: 1000px;
+      margin: 60px auto 40px auto;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .window img {
+      width: 100%;
+      max-width: 420px;
+      margin: 10px 0 0 0;
+      border-radius: 16px;
+      box-shadow: 0 6px 40px 0 rgba(100, 100, 0, 0.14);
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+      display: block;
+      object-fit: cover;
+    }
+    .title-bar {
+      background: linear-gradient(90deg, #a3d977, #f7ffae);
+      padding: 8px 16px;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
+      color: #2a2a2a;
+      border: 2px outset #e0e0e0;
+      margin-bottom: 14px;
+      border-radius: 8px 8px 0 0;
+      position: relative;
+      font-size: 1.2rem;
+      letter-spacing: 0.07em;
+      animation: hypnoticText 8s infinite linear;
+      align-self: stretch;
+      text-align: left;
+    }
+    .window.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .window {
+      border: 2px solid #c0c0c0;
+      background: rgba(255,255,255,0.82);
+      box-shadow: 2px 2px 0 #fff inset, -2px -2px 0 #808080 inset;
+      padding: 24px 30px;
+      margin: 50px auto;
+      border-radius: 14px;
+      position: relative;
+      opacity: 1;
+      transform: none;
+      will-change: opacity, transform;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 0;
+      max-width: 700px;
+      width: 97vw;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .window-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      gap: 14px;
+      min-width: 0;
+    }
+    .section-break {
+      text-align: center;
+      margin: 38px 0;
+    }
+    .section-break img {
+      max-width: 120px;
+      opacity: 0.6;
+      animation: dividerFloat 4s infinite ease-in-out;
+    }
+    @keyframes dividerFloat {
+      0%,100% { transform: translateY(0);}
+      50% { transform: translateY(13px);}
+    }
+    .hypnotic {
+      animation: hypnoticWave 3.7s infinite cubic-bezier(.54,1.36,.72,.96);
+    }
+    @keyframes hypnoticWave {
+      0%,100% { transform: scale(1) rotate(-2deg);}
+      25% { transform: scale(1.08) rotate(3deg);}
+      50% { transform: scale(0.95) rotate(-4deg);}
+      75% { transform: scale(1.04) rotate(2deg);}
+    }
+    .clickable-text {
+      display: inline-block;
+      color: #ffe66a;
+      background: linear-gradient(90deg,#f7ffae,#a3d977);
+      border-radius: 6px;
+      padding: 2px 8px;
+      margin: 0 2px;
+      font-weight: bold;
+      cursor: pointer;
+      animation: hypnoticWave 2.7s infinite cubic-bezier(.54,1.36,.72,.96);
+      box-shadow: 0 2px 8px 0 rgba(220,220,0,0.10);
+      transition: background 0.3s, color 0.3s;
+      font-size: 1.2em;
+    }
+    .clickable-text:hover {
+      background: #ffe66a;
+      color: #222;
+      transform: scale(1.1);
+    }
+    h1.hypnotic, h2.hypnotic {
+      font-family: 'Orbitron', 'VT323', 'Courier New', Courier, monospace;
+      color: #4b7300;
+      text-shadow: 2px 2px #ffe66a;
+      animation: hypnoticWave 3.7s infinite cubic-bezier(.54,1.36,.72,.96);
+      font-size: 2.1rem;
+      font-weight: bold;
+      margin-bottom: 6px;
+      margin-top: 0;
+      text-align: center;
+      word-break: break-word;
+    }
+    h2.hypnotic { font-size: 1.7rem; }
+    p.hypnotic {
+      font-family: 'VT323', 'Courier New', Courier, monospace;
+      color: #4b7300;
+      text-shadow: 1px 1px #ffe66a;
+      animation: hypnoticWave 3.7s infinite cubic-bezier(.54,1.36,.72,.96);
+      font-size: 1.35rem;
+      margin-bottom: 7px;
+      margin-top: 0;
+      text-align: center;
+      word-break: break-word;
+    }
+    body.theme-lemon h1.hypnotic, body.theme-lemon h2.hypnotic, body.theme-lemon p.hypnotic, body.theme-lemon span, body.theme-lemon .hypnotic {
+      color: #4b7300; text-shadow: 1px 1px #fffde4;
+    }
+    .window .extra {
+      margin-top: 18px;
+      font-size: 1.08rem;
+      color: #6a9400;
+      animation: hypnoticWave 4.7s infinite cubic-bezier(.54,1.36,.72,.96);
+      text-align: center;
+      word-break: break-word;
+    }
+    body.theme-lemon .window .extra {
+      color: #6a9400;
+    }
+    .contact-links {
+      margin-top: 14px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 1.15rem;
+      justify-content: center;
+    }
+    .contact-links a {
+      color: #4b7300; background: #ffe66a;
+      padding: 4px 13px;
+      border-radius: 5px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 1px 6px 0 rgba(100,100,0,0.09);
+      transition: background 0.3s, color 0.3s;
+      animation: hypnoticWave 2.7s infinite cubic-bezier(.54,1.36,.72,.96);
+      font-size: 1em;
+    }
+    .contact-links a:hover {
+      background: #a3d977; color: #fff;
+    }
+    ::-webkit-scrollbar { width: 11px; background: #ffe66a;}
+    ::-webkit-scrollbar-thumb { background: #a3d977; border-radius: 8px;}
+    ::-webkit-scrollbar-thumb:hover { background: #4b7300;}
+  </style>
+</head>
+<body class="theme-win98">
+  <nav>
+    <div class="logo-container">
+      <img class="logo" src="https://i.imgur.com/IMC9ASE.png" alt="lemonz98 logo" />
+      <span class="site-title">lemonz98</span>
+    </div>
+    <div class="menu">
+      <div class="desktop-menu">
+        <a class="menu-btn" href="#welcome">Welcome</a>
+        <a class="menu-btn" href="#projects">Projects</a>
+        <a class="menu-btn" href="#backrooms">Backrooms</a>
+        <a class="menu-btn" href="#about">About</a>
+        <a class="menu-btn" href="#contact">Contact</a>
+      </div>
+      <div class="theme-btns">
+        <button title="Windows 98" class="theme-btn active" data-theme="theme-win98">🖥️</button>
+        <button title="Lemon" class="theme-btn" data-theme="theme-lemon">🍋</button>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()" id="hamburgerBtn">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#welcome">Welcome</a>
+        <a href="#projects">Projects</a>
+        <a href="#backrooms">Backrooms</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <section class="window visible" id="welcome">
+      <div class="title-bar">Welcome</div>
+      <div class="window-content">
+        <h1 class="hypnotic">Step into <span class="clickable-text">lemonz98</span>!</h1>
+        <p class="hypnotic">A retro world of gaming, creativity, and surreal vibes, blending Windows 98 nostalgia, Backrooms mystery, and lemony freshness.</p>
+        <img src="https://i.imgur.com/IMC9ASE.png" alt="Win98 PC">
+        <p class="extra">Hypnotic retro sound, pixel art, and animated memories await. Scroll down and get lost...</p>
+      </div>
+    </section>
+    <div class="section-break">
+      <img src="https://i.pinimg.com/564x/8e/e6/e7/8ee6e7b5d7d1ccff7c23411c9b8efe00.jpg" alt="Divider">
+    </div>
+    <section class="window visible" id="projects">
+      <div class="title-bar">Projects</div>
+      <div class="window-content">
+        <h2 class="hypnotic">Retro Projects</h2>
+        <p class="hypnotic">Explore <span class="clickable-text">retro-inspired games</span> & tools built with pixel-perfect precision, hypnotic glitches, and classic UI.</p>
+        <img src="https://static.wikia.nocookie.net/escapethebackrooms/images/0/02/Computer.png" alt="Project Screenshot">
+        <p class="extra">From arcade clones and adventure games to experimental Backrooms experiences and lemony utilities. Each project is crafted for maximal nostalgia!</p>
+        <img src="https://res.cloudinary.com/teepublic/image/private/s--Rj0JcyTR--/c_fit,g_north_west,h_920,w_920/co_ffffff,e_outline:41/co_ffffff,e_outline:inner_fill:1/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1591536239/production/designs/11079209_2.jpg" alt="Retro Lemon Game">
+      </div>
+    </section>
+    <div class="section-break">
+      <img src="https://i.pinimg.com/564x/8e/e6/e7/8ee6e7b5d7d1ccff7c23411c9b8efe00.jpg" alt="Divider">
+    </div>
+    <section class="window visible" id="backrooms">
+      <div class="title-bar">Backrooms</div>
+      <div class="window-content">
+        <h2 class="hypnotic">Backrooms Mystery</h2>
+        <p class="hypnotic">Step into the eerie world of <span class="clickable-text">Backrooms</span>. Lose yourself in surreal levels, glitches, and nostalgic horror inspired by urban legends and early PC graphics.</p>
+        <img src="https://preview.redd.it/the-most-common-entity-in-the-backrooms-v0-flj4ac5u5mwb1.jpg?width=640&crop=smart&auto=webp&s=ae0572b0fc6ea0741fd31931320ff58cd56a944e" alt="Backrooms Level">
+        <p class="extra">Glitch effects, hypnotic visuals, and mysterious soundscapes. Can you find your way out, or will you get lost forever?</p>
+        <img src="https://blenderartists.org/uploads/default/original/4X/8/b/c/8bcf893927944d39bf67be337539ee66daa90568.png" alt="Glitch Backrooms">
+      </div>
+    </section>
+    <div class="section-break">
+      <img src="https://i.pinimg.com/564x/8e/e6/e7/8ee6e7b5d7d1ccff7c23411c9b8efe00.jpg" alt="Divider">
+    </div>
+    <section class="window visible" id="about">
+      <div class="title-bar">About</div>
+      <div class="window-content">
+        <h2 class="hypnotic">About lemonz98</h2>
+        <p class="hypnotic">The <span class="clickable-text">lemonz98</span> project blends 90s nostalgia, Backrooms mystery, and modern web creativity. Dive in and enjoy hypnotic retro-tech!</p>
+        <img src="https://i.imgur.com/bcwZdbD.png" alt="About Lemonz98">
+        <p class="extra">Dreamed up by fans of old-school Windows, surreal internet folklore, and vibrant lemons. Your portal to a hypnotic universe!</p>
+      </div>
+    </section>
+    <div class="section-break">
+      <img src="https://i.pinimg.com/564x/8e/e6/e7/8ee6e7b5d7d1ccff7c23411c9b8efe00.jpg" alt="Divider">
+    </div>
+    <section class="window visible" id="contact">
+      <div class="title-bar">Contact</div>
+      <div class="window-content">
+        <h2 class="hypnotic">Contact & Social</h2>
+        <p class="hypnotic">Reach out via <a href="mailto:contact@lemonz98.xyz">contact@lemonz98.xyz</a> or follow us on your favorite networks.</p>
+        <div class="contact-links">
+          <a href="mailto:0xlemonz@gmail.com">✉️ Email</a>
+          <a href="https://github.com/0xlemonz" target="_blank">🐙 GitHub</a>
+          <a href="https://twitter.com/0xlemonz" target="_blank">🐤 Twitter/X</a>
+          <a href="https://instagram.com/0xlemonz" target="_blank">📸 Instagram</a>
+          <a href="https://discord.gg/DZFtrnJr" target="_blank">💬 Discord</a>
+        </div>
+        <img src="https://stride.com.au/wp-content/uploads/2023/11/social-wellness.jpg" alt="Contact Lemonz98">
+        <p class="extra">Let's collaborate, chat, or share some retro memes!</p>
+      </div>
+    </section>
+  </div>
+  <audio id="background-audio" src="lemonz98.mp3" preload="auto" loop></audio>
+  <script>
+    
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.body.className = btn.dataset.theme;
+        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      menu.classList.toggle('show');
+      hamburgerBtn.classList.toggle('open');
+    }
+    document.querySelectorAll('.mobile-menu a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.remove('show');
+        document.getElementById('hamburgerBtn').classList.remove('open');
+      });
+    });
+    document.querySelector('.logo').addEventListener('click', function() {
+      this.style.transform = 'scale(1.2) rotate(14deg)';
+      setTimeout(() => this.style.transform = '', 600);
+    });
+    document.querySelectorAll('h1, h2, p, span').forEach(el => el.classList.add('hypnotic'));
+    
+    window.addEventListener('load', () => {
+      const audio = document.getElementById('background-audio');
+      audio.volume = 0.2;
+      audio.loop = true;
+      audio.play().catch(() => {
+        document.body.addEventListener('click', () => audio.play(), { once: true });
+      });
+    });
+    document.querySelectorAll('.clickable-text').forEach(el => {
+      el.addEventListener('mouseenter', function() {
+        this.style.background = '#ffe66a';
+        this.style.color = '#222';
+        this.style.transform = 'scale(1.14)';
+      });
+      el.addEventListener('mouseleave', function() {
+        this.style.background = '';
+        this.style.color = '';
+        this.style.transform = '';
+      });
+    });
+    document.body.addEventListener('click', function(e){
+      const mobileMenu = document.getElementById('mobileMenu');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      if(mobileMenu.classList.contains('show') && !mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)){
+        mobileMenu.classList.remove('show');
+        hamburgerBtn.classList.remove('open');
+      }
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e){
+        const targetId = this.getAttribute('href').replace('#','');
+        const targetEl = document.getElementById(targetId);
+        if(targetEl){
+          e.preventDefault();
+          window.scrollTo({ top: targetEl.offsetTop - 40, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
